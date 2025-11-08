@@ -30,8 +30,7 @@
             "nsis": {
                 "installerHooks": "./windows/hooks.nsi"
             },
-            "timestampUrl": "",
-            "signCommand": ""
+            "timestampUrl": ""
         },
         "longDescription": "",
         "macOS": {
