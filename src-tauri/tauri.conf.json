@@ -73,9 +73,6 @@
                     "tome"
                 ]
             }
-        },
-        "updater": {
-            "endpoints": []
         }
     },
     "app": {
