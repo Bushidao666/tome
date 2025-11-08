@@ -50,6 +50,7 @@
         ]
     },
     "dependencies": {
+        "@anthropic-ai/sdk": "^0.23.0",
         "@google/genai": "^1.0.0",
         "@tauri-apps/api": "^2.3.0",
         "@tauri-apps/plugin-deep-link": "~2",

@@ -2,6 +2,10 @@ name: release
 
 on:
   workflow_dispatch:
+  push:
+    tags:
+      - 'v*'
+      - 'release-*'
 
 jobs:
   build:
@@ -20,6 +24,8 @@ jobs:
             args: '--target aarch64-apple-darwin'
           - os: windows-latest
             args: ''
+          - os: ubuntu-latest
+            args: ''
 
     runs-on: ${{ matrix.os }}
     steps:
@@ -37,7 +43,18 @@ jobs:
         run: npm install -g pnpm
 
       - name: dependencies
-        run: pnpm install
+        run: pnpm install --frozen-lockfile
+
+      - name: install system dependencies (Linux)
+        if: matrix.os == 'ubuntu-latest'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            libgtk-3-dev \
+            libwebkit2gtk-4.1-dev \
+            libayatana-appindicator3-dev \
+            librsvg2-dev \
+            patchelf
 
       - name: keychain
         if: matrix.os == 'macos-latest'

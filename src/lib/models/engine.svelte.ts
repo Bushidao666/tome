@@ -1,6 +1,7 @@
 import type { ToSqlRow } from './base.svelte';
 
 import Gemini from '$lib/engines/gemini/client';
+import AnthropicClient from '$lib/engines/anthropic/client';
 import Ollama from '$lib/engines/ollama/client';
 import OpenAI from '$lib/engines/openai/client';
 import type { Client, ClientOptions } from '$lib/engines/types';
@@ -18,9 +19,10 @@ const AVAILABLE_MODELS: Record<EngineType, 'all' | string[]> = {
         'gemini-2.0-flash',
         'gemini-2.0-flash-lite',
     ],
+    anthropic: 'all',
 };
 
-type EngineType = 'ollama' | 'openai' | 'gemini' | 'openai-compat';
+type EngineType = 'ollama' | 'openai' | 'gemini' | 'openai-compat' | 'anthropic';
 
 interface Row {
     id: number;
@@ -56,6 +58,7 @@ export default class Engine extends Base<Row>('engines') {
             openai: OpenAI,
             gemini: Gemini,
             'openai-compat': OpenAI,
+            anthropic: AnthropicClient,
         }[this.type];
 
         if (Client) {

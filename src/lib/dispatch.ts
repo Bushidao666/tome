@@ -40,7 +40,16 @@ export async function dispatch(session: Session, model: Model, prompt?: string):
         options
     );
 
+    async function persistAssistantMessage() {
+        message.engineId = model.engineId;
+        message.model = String(model.id);
+        message.sessionId = session.id;
+        await message.save();
+    }
+
     if (message.toolCalls?.length) {
+        await persistAssistantMessage();
+
         for (const call of message.toolCalls) {
             // Some engines, like Ollama, don't give tool calls a unique
             // identifier. In those cases, do it ourselves, so that future
@@ -55,14 +64,6 @@ export async function dispatch(session: Session, model: Model, prompt?: string):
             });
 
             await session.addMessage({
-                role: 'assistant',
-                content: '',
-                engineId: model.engineId,
-                model: model.id,
-                toolCalls: [call],
-            });
-
-            await session.addMessage({
                 role: 'tool',
                 content,
                 engineId: model.engineId,
@@ -74,10 +75,7 @@ export async function dispatch(session: Session, model: Model, prompt?: string):
         }
     }
 
-    message.engineId = model.engineId;
-    message.model = String(model.id);
-    message.sessionId = session.id;
-    await message.save();
+    await persistAssistantMessage();
 
     return message;
 }

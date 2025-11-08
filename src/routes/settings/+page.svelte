@@ -39,6 +39,14 @@
         Setting.LabsMode = value;
     }
 
+    async function setAnthropicEnabled(value: boolean) {
+        Setting.AnthropicEnabled = value;
+    }
+
+    async function setShowReasoning(value: boolean) {
+        Setting.ShowReasoning = value;
+    }
+
     function onsave(_: Engine) {
         adding = false;
     }
@@ -183,6 +191,38 @@
             </Flex>
 
             {#if Setting.LabsMode}
+                <Flex class="w-full items-start gap-4">
+                    <section class="w-2/5">
+                        <h2 class="font-semibold uppercase">Anthropic</h2>
+                        <p class="text-medium font-light">
+                            Enable or disable Anthropic engine visibility in the UI.
+                        </p>
+                    </section>
+                    <Flex class="w-full flex-col items-start gap-2">
+                        <Toggle
+                            label=""
+                            value={Setting.AnthropicEnabled ? 'on' : 'off'}
+                            onenable={() => setAnthropicEnabled(true)}
+                            ondisable={() => setAnthropicEnabled(false)}
+                        />
+                    </Flex>
+                </Flex>
+                <Flex class="w-full items-start gap-4">
+                    <section class="w-2/5">
+                        <h2 class="font-semibold uppercase">Show Model Reasoning</h2>
+                        <p class="text-medium font-light">
+                            Display the model's thinking (reasoning) blocks in chat when available.
+                        </p>
+                    </section>
+                    <Flex class="w-full flex-col items-start gap-2">
+                        <Toggle
+                            label=""
+                            value={Setting.ShowReasoning ? 'on' : 'off'}
+                            onenable={() => setShowReasoning(true)}
+                            ondisable={() => setShowReasoning(false)}
+                        />
+                    </Flex>
+                </Flex>
                 <Flex class="w-full items-start gap-4">
                     <section class="w-2/5">
                         <h2 class="font-semibold uppercase">Developer Tools</h2>

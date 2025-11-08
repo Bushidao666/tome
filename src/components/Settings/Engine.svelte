@@ -7,7 +7,7 @@
     import Icon from '$components/Icon.svelte';
     import Input from '$components/Input.svelte';
     import Svg from '$components/Svg.svelte';
-    import { Engine } from '$lib/models';
+    import { Engine, Setting } from '$lib/models';
 
     const NON_DELETEABLE_ENGINES = ['ollama', 'openai', 'gemini'];
 
@@ -31,10 +31,15 @@
     let nameCss = $state('');
     let urlCss = $state('');
 
-    const icon = capitalCase(engine.type == 'openai-compat' ? 'openai' : engine.type);
+    const icon = $derived(capitalCase(engine.type == 'openai-compat' ? 'openai' : engine.type));
     const hasApiKey = engine.type !== 'ollama';
     const isImmutableUrl = ['openai', 'gemini'].includes(engine.type);
     const isDeletable = !NON_DELETEABLE_ENGINES.includes(engine.type);
+
+    const ENGINE_TYPES = $derived(
+        ['ollama', 'openai', 'gemini', 'openai-compat']
+            .concat(Setting.AnthropicEnabled ? ['anthropic'] : [])
+    );
 
     async function validateDefaultEngine() {
         let valid = true;
@@ -149,6 +154,19 @@
     </Flex>
 
     <Flex class="w-full p-2">
+        {#if isDeletable}
+            <p class="m-2 flex w-[100px] items-center text-sm">Type</p>
+            <select
+                class="border-light bg-medium text-light mr-4 rounded-md border p-2"
+                bind:value={engine.type}
+                onchange={autosave}
+            >
+                {#each ENGINE_TYPES as t (t)}
+                    <option value={t}>{capitalCase(t == 'openai-compat' ? 'OpenAI-Compatible' : t)}</option>
+                {/each}
+            </select>
+        {/if}
+
         <p class="m-2 flex w-[100px] items-center text-sm">
             URL
             <span class="text-red">*</span>

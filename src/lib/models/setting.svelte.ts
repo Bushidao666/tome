@@ -11,7 +11,9 @@ export type SettingKey =
     | 'ollama-url'
     | 'custom-system-prompt'
     | 'color-scheme'
-    | 'labs-mode';
+    | 'labs-mode'
+    | 'anthropic-enabled'
+    | 'show-reasoning';
 
 interface Row {
     id: number;
@@ -45,6 +47,12 @@ export default class Setting extends Base<Row>('settings') {
 
     @getset('labs-mode')
     static LabsMode: boolean;
+
+    @getset('anthropic-enabled')
+    static AnthropicEnabled: boolean;
+
+    @getset('show-reasoning')
+    static ShowReasoning: boolean;
 
     protected static async afterUpdate() {
         // Resync models in case a Provider key/url was updated.
