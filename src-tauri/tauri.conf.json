@@ -10,7 +10,7 @@
         "active": true,
         "category": "DeveloperTool",
         "copyright": "",
-        "createUpdaterArtifacts": true,
+        "createUpdaterArtifacts": false,
         "targets": [
             "dmg",
             "app",
@@ -75,10 +75,7 @@
             }
         },
         "updater": {
-            "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IDdGN0Q2QTBFQkRGNzFCRUMKUldUc0cvZTlEbXA5ZnhkalBpL2NhUU1VMXJxODJTNlQ2YThMWkV1UCtCb0JPMUU5T3RFWkx3M1QK",
-            "endpoints": [
-                "https://github.com/runebookai/tome/releases/latest/download/latest.json"
-            ]
+            "endpoints": []
         }
     },
     "app": {
